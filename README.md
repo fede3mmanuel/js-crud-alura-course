@@ -10,3 +10,7 @@ json-server --watch db.json
 
 (se require instalación global para el próximo comando):
 npx json-server --watch db.json
+
+
+npm install -g browser-sync
+browser-sync
