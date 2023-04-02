@@ -32,23 +32,35 @@ const crearNuevaLinea = (nombre, email) => {
 
 const table = document.querySelector("[data-table]")
 
-const http = new XMLHttpRequest();
+const listaClientes = () => {
+    const promise = new Promise((resolve,reject) => {
+        const http = new XMLHttpRequest();
 
-http.open("GET", "http://localhost:3000/perfil")
+        http.open("GET", "http://localhost:3000/perfil")
 
-http.send()
+        http.send()
 
-http.onload = () => {
-    const data = JSON.parse(http.response)
+        http.onload = () => {
+            const response = JSON.parse(http.response)
+            if(http.status >= 400) {
+                reject(response)
+            } else {
+                resolve(response)
+            }
+            }
+    })
+
+    return promise
+}
+
+listaClientes().then((data) => {
+    
     data.forEach((perfil) => {
         const nuevaLinea = crearNuevaLinea(perfil.nombre, perfil.email)
         table.appendChild(nuevaLinea);
     });
-    const http2 = new XMLHttpRequest()
-    http2.open("GET", "http://localhost:3000/perfil/hoy")
-    http2.send()
-    http2.onload = () => {
-        const data2 = JSON.parse(http2.response)
-    }
+}).catch((error) => {
+    console.log(error);
+})
 
-}
+
