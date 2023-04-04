@@ -13,9 +13,15 @@ const ObtenerInformacion = async () => {
 
     const nombre = document.querySelector("[data-nombre]")
     const email = document.querySelector("[data-email]")
-    const perfil = await clientServices.detalleCliente(id)
+
+    try {
+        const perfil = await clientServices.detalleCliente(id)
         nombre.value = perfil.nombre
         email.value = perfil.email
+    } catch (error) {
+        console.log("Catch error:", error);
+    }
+    
 }
 
 ObtenerInformacion()
